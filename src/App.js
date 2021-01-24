@@ -1,11 +1,17 @@
 import './App.css';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 
 function App() {
-  return (
-    <div className="App">
-      Hello from react!
-    </div>
-  );
+    return (
+        <Container
+            className="App"
+            maxWidthh="sm">
+            <Button variant="contained" color="primary">
+                Hello World
+            </Button>
+        </Container>
+    );
 }
 
 export default App;
