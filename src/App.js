@@ -6,7 +6,7 @@ function App() {
     return (
         <Container
             className="App"
-            maxWidthh="sm">
+            maxWidth="sm">
             <Button variant="contained" color="primary">
                 Hello World
             </Button>
