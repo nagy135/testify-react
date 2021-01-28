@@ -1,6 +1,8 @@
 import './App.css';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
+import Login from './components/Login';
+import Main from './components/Main';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 
@@ -21,14 +23,10 @@ function App() {
                     <Route
                         path="/login"
                         render={() => (
-                            <Button variant="contained" color="primary">
-                                LOGIN
-                            </Button>
+                            <Login/>
                         )} />
                     <Route path="/">
-                        <Button variant="contained" color="primary">
-                            NORMAL
-                        </Button>
+                        <Main/>
                     </Route>
                 </Switch>
             </Router>
