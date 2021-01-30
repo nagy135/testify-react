@@ -7,15 +7,14 @@ import Container from '@material-ui/core/Container';
 import { connect } from "react-redux";
 
 function App({ loggedIn }) {
-    console.log('haha', loggedIn);
     return (
         <Container
             className="App"
             maxWidth="sm">
             <Navigation />
             {loggedIn
-                ? <Login />
-                : <Main />
+                ? <Main />
+                : <Login />
             }
             <Footer />
         </Container>

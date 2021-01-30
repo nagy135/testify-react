@@ -5,7 +5,7 @@ export const LOG_IN_STATE = 'LOG_IN';
 export const LOG_OUT_STATE = 'LOG_OUT';
 
 const initialState = {
-    loggedIn: true
+    loggedIn: false
 };
 
 function login(state = initialState, action){
