@@ -3,36 +3,27 @@ import Footer from './components/Footer';
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import Main from './components/Main';
-import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import { connect } from "react-redux";
 
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from "react-router-dom";
-
-function App() {
+function App({ loggedIn }) {
+    console.log('haha', loggedIn);
     return (
         <Container
             className="App"
             maxWidth="sm">
             <Navigation />
-            <Router>
-                <Switch>
-                    <Route
-                        path="/login"
-                        render={() => (
-                            <Login/>
-                        )} />
-                    <Route path="/">
-                        <Main/>
-                    </Route>
-                </Switch>
-            </Router>
+            {loggedIn
+                ? <Login />
+                : <Main />
+            }
             <Footer />
         </Container>
     );
 }
 
-export default App;
+const mapReduxState = state => {
+    return state;
+};
+
+export default connect(mapReduxState)(App);
