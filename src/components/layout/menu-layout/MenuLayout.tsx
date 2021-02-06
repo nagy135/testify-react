@@ -20,8 +20,8 @@ import {
 } from "./MenuLayout.styled";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { RootState } from "@store/storeType";
-import { IUser } from "@store/app/appType";
+import { RootState } from "../../../store/storeType";
+import { IUser } from "../../../store/app/appType";
 
 /**
  * Generate theme for nested components

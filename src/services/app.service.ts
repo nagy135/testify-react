@@ -1,4 +1,4 @@
-import dataApi from "@lib/api/dataApi";
+import dataApi from "../lib/api/dataApi";
 
 /**
  * Call BE api to login user

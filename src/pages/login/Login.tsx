@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { actions as appActions } from "../../store/app";
 import { ILoginForm, initialValues, loginSchema } from "./Login.schema";
-import { RootState, TOperationStatus } from "@store/storeType";
+import { RootState, TOperationStatus } from "../../store/storeType";
 import { useHistory } from "react-router";
 import Card from "@material-ui/core/Card";
 

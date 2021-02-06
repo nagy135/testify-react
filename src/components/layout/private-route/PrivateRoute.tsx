@@ -1,5 +1,5 @@
-import { IUser } from "@store/app/appType";
-import { RootState } from "@store/storeType.d";
+import { IUser } from "../../../store/app/appType";
+import { RootState } from "../../../store/storeType.d";
 import React, { PropsWithChildren } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, RouteProps } from "react-router-dom";
