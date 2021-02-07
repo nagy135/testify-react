@@ -1,4 +1,5 @@
-import dataApi from "../lib/api/dataApi";
+import { IUser } from "./../store/app/appType.d";
+import DataApi from "../lib/api";
 
 /**
  * Call BE api to login user
@@ -6,7 +7,7 @@ import dataApi from "../lib/api/dataApi";
  * @param password password of user
  */
 export function login(email: string, password: string) {
-  return dataApi.custom("/api/login", {
+  return DataApi.request<IUser>("/api/login", {
     method: "POST",
     data: {
       email,

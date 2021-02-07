@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Dashboard = React.memo(() => {
   const { t } = useTranslation();
@@ -18,14 +18,14 @@ const Dashboard = React.memo(() => {
       MenuComponent={
         <>
           <List>
-            <Link to="/dashboard">
+            <NavLink to="/dashboard">
               <ListItem button key="dashboard">
                 <ListItemIcon>
                   <DashboardIcon />
                 </ListItemIcon>
                 <ListItemText primary={t("menu:dashboard")} />
               </ListItem>
-            </Link>
+            </NavLink>
           </List>
         </>
       }

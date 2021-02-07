@@ -1,63 +1,27 @@
 import { AxiosPromise } from "axios";
+import { ICustomRequestParams } from "./api";
 import BaseApi from "./baseApi";
 
-export interface ICustomRequestParams {
-  method: "GET" | "POST" | "PUT" | "DELETE";
-  data: object;
-  queries: { [key: string]: string | number | null | undefined };
-  contentType: "application/json" | "multipart/form-data";
-}
-
 class DataApi extends BaseApi {
-  // Custom Get request
-  custom = <T = any>(
-    path: string,
-    params: Partial<ICustomRequestParams> | null = null
+  /**
+   * Custom wrapper around axios to provide better
+   * calls separations and to add auth tokens to headers
+   * @param url url of api without baseUrl
+   * @param config Config for request
+   */
+  request = <T = any>(
+    url: string,
+    config?: ICustomRequestParams
   ): AxiosPromise<T> => {
-    if (params === null) {
-      return this.axios.get(`${this.baseUrl}${path}`);
-    }
-
-    if (params.method === "POST") {
-      return this.axios.post(`${this.baseUrl}${path}`, params.data, {
-        headers: {
-          "Content-Type":
-            params && params.contentType
-              ? params.contentType
-              : "application/json",
-        },
-        params: {
-          ...params.queries,
-        },
-      });
-    }
-
-    if (params.method === "PUT") {
-      return this.axios.put(`${this.baseUrl}${path}`, params.data, {
-        headers: {
-          "Content-Type":
-            params && params.contentType
-              ? params.contentType
-              : "application/json",
-        },
-        params: {
-          ...params.queries,
-        },
-      });
-    }
-
-    if (params.method === "DELETE") {
-      return this.axios.delete(`${this.baseUrl}${path}`, {
-        params: {
-          ...params.queries,
-        },
-      });
-    }
-
-    // default
-    return this.axios.get(`${this.baseUrl}${path}`, {
-      params: {
-        ...params.queries,
+    return this.axios({
+      url,
+      ...config,
+      headers: {
+        ...config?.headers,
+        "Content-Type":
+          config && config.contentType
+            ? config.contentType
+            : "application/json",
       },
     });
   };

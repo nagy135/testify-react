@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useCallback, useState } from "react";
+import React, { PropsWithChildren, useCallback, useRef, useState } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -70,11 +70,9 @@ const MenuLayout = React.memo<PropsWithChildren<MenuLayoutProps>>(
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(
-      null
-    );
     const [open, setOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const anchorRef = useRef(null);
 
     const user = useSelector<RootState, IUser | undefined>(
       (state) => state.app.user
@@ -84,8 +82,7 @@ const MenuLayout = React.memo<PropsWithChildren<MenuLayoutProps>>(
       setOpen((o) => !o);
     }, []);
 
-    const toggleMenu = useCallback((e: React.SyntheticEvent) => {
-      setAnchorEl(e.currentTarget);
+    const toggleMenu = useCallback(() => {
       setUserMenuOpen((o) => !o);
     }, []);
 
@@ -110,19 +107,20 @@ const MenuLayout = React.memo<PropsWithChildren<MenuLayoutProps>>(
               {t("app:title")}
             </Typography>
             <RightContent>
+              <Typography>{` ${user?.firstName} ${user?.lastName}`}</Typography>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={toggleMenu}
                 color="inherit"
+                ref={anchorRef}
               >
                 <AccountCircle />
-                <Typography>{` ${user?.firstName} ${user?.lastName}`}</Typography>
               </IconButton>
               <Menu
                 id="menu-appbar"
-                anchorEl={anchorEl}
+                anchorEl={anchorRef.current}
                 anchorOrigin={{
                   vertical: "top",
                   horizontal: "right",

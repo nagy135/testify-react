@@ -51,7 +51,14 @@ const Login = React.memo(() => {
     [dispatch]
   );
 
-  const { handleSubmit, values, errors, touched, handleChange } = useFormik({
+  const {
+    handleSubmit,
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+  } = useFormik({
     initialValues,
     validationSchema: loginSchema,
     onSubmit,
@@ -81,10 +88,11 @@ const Login = React.memo(() => {
                 placeholder={t("login.emailPlaceholder")}
                 autoComplete="email"
                 autoFocus
-                error={(touched.email && errors.email) as boolean}
+                error={touched.email && errors.email !== undefined}
                 helperText={errors.email ? t(errors.email as any) : undefined}
                 value={values.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               <TextField
                 variant="outlined"
@@ -97,12 +105,13 @@ const Login = React.memo(() => {
                 placeholder={t("login.passwordPlaceholder")}
                 type="password"
                 autoComplete="current-password"
-                error={(touched.password && errors.password) as boolean}
+                error={touched.password && errors.password !== undefined}
                 helperText={
                   errors.password ? t(errors.password as any) : undefined
                 }
                 value={values.password}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               <SubmitButton
                 type="submit"
