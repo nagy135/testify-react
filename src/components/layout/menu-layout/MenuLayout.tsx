@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useCallback } from "react";
+import React, { PropsWithChildren, useCallback, useState } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -19,9 +19,12 @@ import {
   ToolBar,
 } from "./MenuLayout.styled";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/storeType";
 import { IUser } from "../../../store/app/appType";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import { Menu, MenuItem } from "@material-ui/core";
+import { resetStore } from "../../../store/rootReducer";
 
 /**
  * Generate theme for nested components
@@ -64,20 +67,31 @@ const MenuLayout = React.memo<PropsWithChildren<MenuLayoutProps>>(
   ({ children, MenuComponent }) => {
     const theme = useTheme();
     const classes = useStyles();
-    const { t } = useTranslation("app");
-    const [open, setOpen] = React.useState(false);
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
+
+    const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(
+      null
+    );
+    const [open, setOpen] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
 
     const user = useSelector<RootState, IUser | undefined>(
       (state) => state.app.user
     );
 
-    const handleDrawerOpen = useCallback(() => {
-      setOpen(true);
+    const toggleDrawer = useCallback(() => {
+      setOpen((o) => !o);
     }, []);
 
-    const handleDrawerClose = useCallback(() => {
-      setOpen(false);
+    const toggleMenu = useCallback((e: React.SyntheticEvent) => {
+      setAnchorEl(e.currentTarget);
+      setUserMenuOpen((o) => !o);
     }, []);
+
+    const logout = useCallback(() => {
+      dispatch(resetStore());
+    }, [dispatch]);
 
     return (
       <MenuLayoutSC>
@@ -86,17 +100,45 @@ const MenuLayout = React.memo<PropsWithChildren<MenuLayoutProps>>(
             <IconButtonSC
               color="inherit"
               aria-label="open drawer"
-              onClick={handleDrawerOpen}
+              onClick={toggleDrawer}
               edge="start"
               open={open}
             >
               <MenuIcon />
             </IconButtonSC>
             <Typography variant="h6" noWrap>
-              {t("title")}
+              {t("app:title")}
             </Typography>
             <RightContent>
-              <Typography>{`${user?.firstName} ${user?.lastName}`}</Typography>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={toggleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+                <Typography>{` ${user?.firstName} ${user?.lastName}`}</Typography>
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={userMenuOpen}
+                onClose={toggleMenu}
+              >
+                <MenuItem onClick={logout}>
+                  {t("components:menuLayout.userMenu.logout")}
+                </MenuItem>
+              </Menu>
             </RightContent>
           </Toolbar>
         </AppBarSC>
@@ -114,7 +156,7 @@ const MenuLayout = React.memo<PropsWithChildren<MenuLayoutProps>>(
           }}
         >
           <ToolBar className={classes.toolbar}>
-            <IconButton onClick={handleDrawerClose}>
+            <IconButton onClick={toggleDrawer}>
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
               ) : (
