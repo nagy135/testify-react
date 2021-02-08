@@ -8,7 +8,7 @@ const app = {
     emailPlaceholder: "Napíš email",
 
     passwordLabel: "Heslo",
-    passwordPlaceholder: "Napíč heslo",
+    passwordPlaceholder: "Napíš heslo",
 
     submitAction: "Prihlásiť sa",
   },
